@@ -57,27 +57,26 @@ pub fn buy_lottery_ticket(
     let token_program = &ctx.accounts.token_program;
     let lottery_game = &mut ctx.accounts.lottery_game;
     let participant = &mut ctx.accounts.participant;
-    let unit_cost_of_lottery_game: u32 = lottery_game.unit_cost_of_lottery_game;
-    let total_amounts_accepted = lottery_game.total_amounts_accepted;
+    let unit_cost_of_lottery_ticket: u32 = lottery_game.unit_cost_of_lottery_ticket;
+    let total_amounts_raised = lottery_game.total_amounts_raised;
     let total_available_funds = lottery_game.total_available_funds;
-    let minimum_bid_amount = lottery_game.minimum_bid_amount;
-    let total_units_lottery_game: u32 = participant.total_units_lottery_game;
+    let total_units_lottery_ticket: u32 = participant.total_units_lottery_ticket;
     let available_funds: u32 = participant.available_funds;
     let decimals = lottery_game.decimals as u64;
     let _amount = params.amount;
 
-    if _amount < minimum_bid_amount {
-        return Err(LotteryGameError::InvalidMinimumBidAmount.into());
+    if _amount != unit_cost_of_lottery_ticket {
+        return Err(LotteryGameError::InvalidLotteryTicketAmount.into());
     }
 
-    // Get unit_lottery_game from the product of unit_cost_of_lottery_game and _amount
-    let unit_lottery_game = unit_cost_of_lottery_game
+    // Get unit_lottery_ticket from the product of unit_cost_of_lottery_ticket and _amount
+    let unit_lottery_ticket = unit_cost_of_lottery_ticket
         .checked_mul(_amount)
         .ok_or(LotteryGameError::InvalidArithmeticOperation)?;
 
-    // Increment total_units_lottery_game with new unit_lottery_game
-    participant.total_units_lottery_game = total_units_lottery_game
-        .checked_add(unit_lottery_game)
+    // Increment total_units_lottery_ticket with new unit_lottery_ticket
+    participant.total_units_lottery_ticket = total_units_lottery_ticket
+        .checked_add(unit_lottery_ticket)
         .ok_or(LotteryGameError::InvalidArithmeticOperation)?;
 
     // Increment available_funds with new _amount
@@ -85,8 +84,8 @@ pub fn buy_lottery_ticket(
         .checked_add(_amount)
         .ok_or(LotteryGameError::InvalidArithmeticOperation)?;
 
-    // Increment total_amounts_accepted with new _amount
-    lottery_game.total_amounts_accepted = total_amounts_accepted
+    // Increment total_amounts_raised with new _amount
+    lottery_game.total_amounts_raised = total_amounts_raised
         .checked_add(_amount)
         .ok_or(LotteryGameError::InvalidArithmeticOperation)?;
 

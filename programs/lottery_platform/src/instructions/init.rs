@@ -13,11 +13,11 @@ pub struct Init<'info> {
         init,
         payer = owner,
         space = 8 + LotteryGameConfigs::INIT_SPACE,
-        constraint = !treasury_bonds_configs.is_initialized @ LotteryGameError::AccountAlreadyInitialized,
+        constraint = !lottery_game_configs.is_initialized @ LotteryGameError::AccountAlreadyInitialized,
         seeds = [b"lottery-game-configs"],
         bump
     )]
-    pub treasury_bonds_configs: Account<'info, LotteryGameConfigs>,
+    pub lottery_game_configs: Account<'info, LotteryGameConfigs>,
     // mut makes it changeble (mutable)
     #[account(mut)]
     pub owner: Signer<'info>,
@@ -25,10 +25,10 @@ pub struct Init<'info> {
 }
 
 pub fn init(ctx: Context<Init>) -> Result<()> {
-    let treasury_bonds_configs = &mut ctx.accounts.treasury_bonds_configs;
+    let lottery_game_configs = &mut ctx.accounts.lottery_game_configs;
 
-    // treasury bonds
-    treasury_bonds_configs.is_initialized = true;
+    // lottery game
+    lottery_game_configs.is_initialized = true;
 
     Ok(())
 }

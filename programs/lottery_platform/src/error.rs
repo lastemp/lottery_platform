@@ -3,10 +3,10 @@ use anchor_lang::prelude::*;
 #[error_code]
 pub enum LotteryGameError {
     // Lottery game
-    #[msg("Invalid issuer length")]
-    InvalidIssuerLength,
-    #[msg("Invalid issuer no length")]
-    InvalidIssuerNoLength,
+    #[msg("Invalid operator length")]
+    InvalidOperatorLength,
+    #[msg("Invalid lottery game name length")]
+    InvalidLotteryGameNameLength,
     #[msg("Invalid type of bond")]
     InvalidTypeOfBond,
     #[msg("Invalid bond tenor")]
@@ -23,8 +23,8 @@ pub enum LotteryGameError {
     MismatchedAmount,
     #[msg("Invalid numeric value.")]
     InvalidNumeric,
-    #[msg("Invalid minimum bid amount.")]
-    InvalidMinimumBidAmount,
+    #[msg("Invalid lottery ticket amount.")]
+    InvalidLotteryTicketAmount,
     #[msg("Invalid bond maturity status.")]
     InvalidBondMaturityStatus,
 

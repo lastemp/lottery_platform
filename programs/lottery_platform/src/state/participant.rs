@@ -9,6 +9,6 @@ pub struct Participant {
     #[max_len(3)]
     pub country: String, // home country of participant
     pub active: bool,  // status of participant
-    pub total_units_lottery_game: u32, // total units of lottery game tickets owned by participant
+    pub total_units_lottery_ticket: u32, // total units of lottery game tickets bought by participant
     pub available_funds: u32, // available funds equal to the lottery game owned by participant
 }
