@@ -1,7 +1,7 @@
 # lottery_platform
 
-This is a [Lottery platform] Rust Smart Contract(Solana Blockchain) built for educational purposes.
-Lottery is a game with established rules where players buy tickets for a chance to win cash/digital coins or other merchandise prizes..
+This is a Lottery platform Rust Smart Contract(Solana Blockchain) built for educational purposes.
+Lottery is a game with established rules where players buy tickets for a chance to win cash/digital coins or other merchandise prizes.
 This Smart Contract provides a platform where participants can buy lottery tickets and win.
 
 Below are some features contained in the program:
