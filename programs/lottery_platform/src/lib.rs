@@ -24,6 +24,13 @@ pub mod lottery_platform {
         instructions::register_lottery_game(ctx, &params)
     }
 
+    pub fn get_lottery_game_winner(
+        ctx: Context<GetLotteryGameWinner>,
+        params: GetLotteryGameWinnerParams,
+    ) -> Result<()> {
+        instructions::get_lottery_game_winner(ctx, &params)
+    }
+
     // public instructions
     pub fn register_participant(
         ctx: Context<RegisterParticipant>,
@@ -45,5 +52,12 @@ pub mod lottery_platform {
 
     pub fn transfer_token(ctx: Context<TransferToken>, params: TransferTokenParams) -> Result<()> {
         instructions::transfer_token(ctx, &params)
+    }
+
+    pub fn withdraw_lottery_game_winnings(
+        ctx: Context<WithdrawLotteryGameWinnings>,
+        params: WithdrawLotteryGameWinningsParams,
+    ) -> Result<()> {
+        instructions::withdraw_lottery_game_winnings(ctx, &params)
     }
 }

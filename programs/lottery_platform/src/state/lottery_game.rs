@@ -16,10 +16,12 @@ pub struct LotteryGame {
     pub is_initialized: bool,       // is lottery game initiated
     #[max_len(10)]
     pub participants: Vec<Pubkey>, // list of the participants
+    pub lottery_game_winner: Pubkey, // lottery game winner
+    pub lottery_game_winner_index: u32, // lottery game winner
     pub lottery_winning_percentage: u32, // lottery winning percentage
     pub unit_cost_of_lottery_ticket: u32, // unit cost of lottery ticket
     pub decimals: u8,               // decimals for the token mint
     #[max_len(20)]
     pub value_date: String, // value date of lottery draw
-    pub is_matured: bool,           // is lottery game matured
+    pub is_closed: bool,            // is lottery game closed
 }

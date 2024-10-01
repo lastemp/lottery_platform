@@ -7,16 +7,8 @@ pub enum LotteryGameError {
     InvalidOperatorLength,
     #[msg("Invalid lottery game name length")]
     InvalidLotteryGameNameLength,
-    #[msg("Invalid type of bond")]
-    InvalidTypeOfBond,
-    #[msg("Invalid bond tenor")]
-    InvalidBondTenor,
-    #[msg("Invalid bond coupon rate")]
-    InvalidBondCouponRate,
     #[msg("Invalid value date length")]
     InvalidValueDateLength,
-    #[msg("Invalid redemption date length")]
-    InvalidValueRedemptionLength,
     #[msg("Invalid amount.")]
     InvalidAmount,
     #[msg("Available balance should match tranfer amount.")]
@@ -25,8 +17,10 @@ pub enum LotteryGameError {
     InvalidNumeric,
     #[msg("Invalid lottery ticket amount.")]
     InvalidLotteryTicketAmount,
-    #[msg("Invalid bond maturity status.")]
-    InvalidBondMaturityStatus,
+    #[msg("Lottery game is closed.")]
+    LotteryGameClosed,
+    #[msg("Invalid lottery game winner.")]
+    InvalidLotteryGameWinner,
 
     //
     #[msg("Invalid country length")]
@@ -43,6 +37,8 @@ pub enum LotteryGameError {
     InvalidParticipantStatus,
     #[msg("Insufficient funds.")]
     InsufficientFunds,
+    #[msg("Participant(s) missing.")]
+    InvalidParticipants,
 
     // account
     #[msg("Account is not initialized.")]

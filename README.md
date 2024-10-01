@@ -11,6 +11,7 @@ Below are some features contained in the program:
 - Buy lottery ticket using USDC token
 - Create USDC token (*for test purposes)
 - Transfer USDC token
+- Get lottery game winner
 - Withdraw USDC token as winnings
 
 ## Getting started

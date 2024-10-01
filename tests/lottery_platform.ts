@@ -395,7 +395,7 @@ describe("lottery_platform", () => {
     }
   });
 
-  it("Is buy lottery ticket!", async () => {
+  it("Is buy lottery ticket - first participant!", async () => {
     try {
       treasuryVaultATA = await getOrCreateAssociatedTokenAccount(
         provider.connection,
@@ -443,6 +443,201 @@ describe("lottery_platform", () => {
 
       let result2 = await program.account.lotteryGame.fetch(lotteryGame);
       console.log("lottery game: ", result2);
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+  it("Is buy lottery ticket - second participant!", async () => {
+    try {
+      treasuryVaultATA = await getOrCreateAssociatedTokenAccount(
+        provider.connection,
+        payer,
+        mintToken.publicKey,
+        treasuryVault,
+        true
+      );
+      console.log(
+        "treasuryVaultATA address: " + treasuryVaultATA.address.toBase58()
+      );
+    } catch (error) {
+      console.log(error);
+    }
+
+    try {
+      let initParams = {
+        // 1 amount of token to transfer (in smallest unit i.e 9 decimals)
+        amount: new anchor.BN(1),
+      };
+
+      const tx = await program.methods
+        .buyLotteryTicket(initParams)
+        .accounts({
+          owner: secondParticipantOwner.publicKey,
+          lotteryGame: lotteryGame,
+          participant: secondParticipant,
+          senderTokens: secondParticipantOwnerATA.publicKey,
+          recipientTokens: treasuryVaultATA.address,
+          mintToken: mintToken.publicKey,
+          tokenProgram: TOKEN_PROGRAM_ID,
+          associateTokenProgram: associateTokenProgram,
+          systemProgram: anchor.web3.SystemProgram.programId,
+        })
+        .signers([secondParticipantOwner])
+        .rpc();
+      console.log("Your transaction signature", tx);
+    } catch (error) {
+      console.log(error);
+    }
+
+    try {
+      let result = await program.account.participant.fetch(secondParticipant);
+      console.log("participant: ", result);
+
+      let result2 = await program.account.lotteryGame.fetch(lotteryGame);
+      console.log("lottery game: ", result2);
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+  it("Is get lottery game winner!", async () => {
+    try {
+      let operator = {
+        operator: "Company Lotto Ke",
+      };
+
+      let initParams = {
+        operator: operator,
+        country: "KE",
+        lotteryGameName: "Lotto Ke 100",
+        /*
+        lotteryWinningPercentage: 90, // 90 %
+        unitCostOfLotteryTicket: 1, // unit cost of lottery ticket
+        decimals: 9, // token mint in smallest unit i.e 9 decimals
+        valueDate: "28-09-2024",
+        */
+      };
+
+      const tx = await program.methods
+        .getLotteryGameWinner(initParams)
+        .accounts({
+          owner: lotteryGameOwner.publicKey,
+          lotteryGameConfigs: lotteryGameConfigs,
+          lotteryGame: lotteryGame,
+          depositAccount: depositAccount.publicKey,
+          pdaAuth: pdaAuth,
+          treasuryVault: treasuryVault,
+          systemProgram: anchor.web3.SystemProgram.programId,
+        })
+        .signers([lotteryGameOwner])
+        .rpc();
+      console.log("Your transaction signature", tx);
+    } catch (error) {
+      console.log(error);
+    }
+
+    try {
+      let result = await program.account.lotteryGame.fetch(lotteryGame);
+      let result2 = await program.account.depositBase.fetch(
+        depositAccount.publicKey
+      );
+      let result3 = await program.account.lotteryGameConfigs.fetch(
+        lotteryGameConfigs
+      );
+      console.log("lottery game: ", result);
+      console.log("deposit account: ", result2);
+      console.log("lottery game configs: ", result3);
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+  it("Is withdraw lottery game winnings - first participant!", async () => {
+    try {
+      let initParams = {
+        // 2 amount of token to withdraw (in smallest unit i.e 9 decimals)
+        amount: new anchor.BN(2),
+      };
+      const tx = await program.methods
+        .withdrawLotteryGameWinnings(initParams)
+        .accounts({
+          owner: firstParticipantOwner.publicKey,
+          lotteryGame: lotteryGame,
+          participant: firstParticipant,
+          senderTokens: treasuryVaultATA.address,
+          recipientTokens: firstParticipantOwnerATA.publicKey,
+          mintToken: mintToken.publicKey,
+          depositAccount: depositAccount.publicKey,
+          pdaAuth: pdaAuth,
+          treasuryVault: treasuryVault,
+          tokenProgram: TOKEN_PROGRAM_ID,
+          associateTokenProgram: associateTokenProgram,
+          systemProgram: anchor.web3.SystemProgram.programId,
+        })
+        .signers([firstParticipantOwner])
+        .rpc();
+      console.log("Your transaction signature", tx);
+    } catch (error) {
+      console.log(error);
+    }
+
+    try {
+      let result = await program.account.depositBase.fetch(
+        depositAccount.publicKey
+      );
+      console.log("deposit account: ", result);
+
+      let result2 = await program.account.participant.fetch(firstParticipant);
+      console.log("participant: ", result2);
+
+      let result3 = await program.account.lotteryGame.fetch(lotteryGame);
+      console.log("lottery game: ", result3);
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+  it("Is withdraw lottery game winnings - second participant!", async () => {
+    try {
+      let initParams = {
+        // 2 amount of token to withdraw (in smallest unit i.e 9 decimals)
+        amount: new anchor.BN(2),
+      };
+      const tx = await program.methods
+        .withdrawLotteryGameWinnings(initParams)
+        .accounts({
+          owner: secondParticipantOwner.publicKey,
+          lotteryGame: lotteryGame,
+          participant: secondParticipant,
+          senderTokens: treasuryVaultATA.address,
+          recipientTokens: secondParticipantOwnerATA.publicKey,
+          mintToken: mintToken.publicKey,
+          depositAccount: depositAccount.publicKey,
+          pdaAuth: pdaAuth,
+          treasuryVault: treasuryVault,
+          tokenProgram: TOKEN_PROGRAM_ID,
+          associateTokenProgram: associateTokenProgram,
+          systemProgram: anchor.web3.SystemProgram.programId,
+        })
+        .signers([secondParticipantOwner])
+        .rpc();
+      console.log("Your transaction signature", tx);
+    } catch (error) {
+      console.log(error);
+    }
+
+    try {
+      let result = await program.account.depositBase.fetch(
+        depositAccount.publicKey
+      );
+      console.log("deposit account: ", result);
+
+      let result2 = await program.account.participant.fetch(secondParticipant);
+      console.log("participant: ", result2);
+
+      let result3 = await program.account.lotteryGame.fetch(lotteryGame);
+      console.log("lottery game: ", result3);
     } catch (error) {
       console.log(error);
     }

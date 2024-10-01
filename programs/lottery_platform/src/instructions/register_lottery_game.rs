@@ -47,7 +47,7 @@ pub struct RegisterLotteryGame<'info> {
 #[derive(AnchorSerialize, AnchorDeserialize)]
 pub struct RegisterLotteryGameParams {
     operator: LotteryOperator,        // lottery operator details
-    country: String,                  // home country where lottery game is issued
+    country: String,                  // home country where lottery game is implemented
     lottery_game_name: String,        // lottery game name
     lottery_winning_percentage: u32,  // lottery winning percentage
     unit_cost_of_lottery_ticket: u32, // unit cost of lottery ticket
@@ -130,6 +130,7 @@ pub fn register_lottery_game(
     lottery_game.country = params.country.to_string();
     lottery_game.lottery_game_name = params.lottery_game_name.to_string();
     lottery_game.is_initialized = true;
+    lottery_game.is_closed = false;
     lottery_game.lottery_winning_percentage = params.lottery_winning_percentage;
     lottery_game.unit_cost_of_lottery_ticket = params.unit_cost_of_lottery_ticket;
     lottery_game.decimals = params.decimals;
